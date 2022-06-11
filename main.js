@@ -36,6 +36,11 @@ window.requestAnimFrame = (() => {
 		y = (e.y - halfY) / halfY;
 	};
 
+	const setGyroXY = (e) => {
+		x = e.alpha / 180 - 1;
+		y = e.beta / 180;
+	};
+
     const render = () => {
 		const rotate = `rotateY(${x * 1}deg)`;
 		for (let i = 0; i < card.container.children.length; i++) {
@@ -62,6 +67,11 @@ window.requestAnimFrame = (() => {
 
 	win.addEventListener("mousemove", e => {
 		setMouseXY(e);
+		requestAnimationFrame(render);
+	});
+
+	win.addEventListener('deviceorientation',e => {
+		setGyroXY(e);
 		requestAnimationFrame(render);
 	});
 
