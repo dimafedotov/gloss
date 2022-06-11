@@ -1,6 +1,6 @@
 body {
 	text-align: center;
-
+	background-color: #666;
 }
 
 .parallax {
@@ -8,6 +8,8 @@ body {
 	width: 512px;
 	height: 768px;
 	position: relative;
+	perspective: 128px;
+	transform-origin: center center 0px;
 }
 
 .parallax img {
@@ -16,3 +18,14 @@ body {
 	left: 0;
 	right: 0;
 }
+
+.parallax .stats {
+	font: 12px thin serif;
+	line-height: 2px;
+	position: absolute;
+	text-align: left;
+	left: 0;
+	top: 0;
+	opacity: 0.5;
+}
+
