@@ -1,6 +1,6 @@
 // shim anim frame
 window.requestAnimFrame = (() => {
-	return  window.requestAnimationFrame       ||
+	return window.requestAnimationFrame    ||
 		window.webkitRequestAnimationFrame ||
 		window.mozRequestAnimationFrame    ||
 		window.oRequestAnimationFrame      ||
@@ -11,9 +11,6 @@ window.requestAnimFrame = (() => {
 })();
 
 ((win, doc) => {
-	const card = {};
-	card["container"] = doc.getElementsByClassName('parallax')[0];
-    const stats = card.container.getElementsByClassName('stats')[0];
 
     let winX = 0;
     let winY = 0;
@@ -22,7 +19,6 @@ window.requestAnimFrame = (() => {
 		winX = win.innerWidth;
 		winY = win.innerHeight;
 	};
-
 
 	setWinXY();
 
@@ -36,42 +32,35 @@ window.requestAnimFrame = (() => {
 		y = (e.y - halfY) / halfY;
 	};
 
-	const setGyroXY = (e) => {
-		x = e.alpha / 180 - 1;
-		y = e.beta / 180;
+	const parse = (v) => (parseInt(v) || 0);
+
+	const render = () => {
+		const cards = doc.getElementsByClassName('parallax');
+		for (let c = 0; c < cards.length; c++) {
+			const card = cards[c];
+			if (!card.children) continue;
+
+			const s = parseFloat(card.dataset["scale"]) || 100;
+			const q = card.clientWidth / 512;
+
+			for (let i = 0; i < card.children.length; i++) {
+				const img = card.children[i];
+				if (!(img instanceof HTMLImageElement)) continue;
+
+				const [dX, dY, dZ] = img.dataset["xyz"]?.split(" ") || [];
+				const tZ = parse(dZ);
+				const tX = parse(dX) * q + x * tZ;
+				const tY = parse(dY) * q + y * tZ;
+
+				const translate = `translate(${tX}px, ${tY}px)`;
+				const scale = `scale(${1 + (tZ / 25000 * s)})`;
+				img.style.transform = translate + " " + scale;
+			}
+		}
 	};
-
-    const render = () => {
-		const rotate = `rotateY(${x * 1}deg)`;
-		for (let i = 0; i < card.container.children.length; i++) {
-			const img = card.container.children[i];
-			// if (!(img instanceof HTMLImageElement)) continue;
-			let [imgX, imgY] = img.dataset["position"]?.split(" ") || [0, 0];
-			const mult = i * 4;
-			const multX = mult * x;
-			const multY = mult * y;
-			imgX = parseInt(imgX) + multX;
-			imgY = parseInt(imgY) + multY;
-			const translate = `translate3D(${imgX}px, ${imgY}px, ${mult}px)`;
-			const scale = `scale(${i == 0 ? 1.2 : 1})`;
-			img.style.transform = translate + " " + rotate + " " + scale;
-	    }
-
-		stats.innerHTML  = `<pre>stats v.0.2</pre>`;
-		stats.innerHTML += `<pre>win: ${winX}x${winY}</pre>`;
-		stats.innerHTML += `<pre>x: ${Math.floor(x * 100)}</pre>`;
-		stats.innerHTML += `<pre>y: ${Math.floor(y * 100)}</pre>`;
-    };
-
-    requestAnimationFrame(render);
 
 	win.addEventListener("mousemove", e => {
 		setMouseXY(e);
-		requestAnimationFrame(render);
-	});
-
-	win.addEventListener('deviceorientation',e => {
-		setGyroXY(e);
 		requestAnimationFrame(render);
 	});
 
@@ -80,4 +69,5 @@ window.requestAnimFrame = (() => {
 		requestAnimationFrame(render);
 	});
 
+    requestAnimationFrame(render);
 })(window, document);
