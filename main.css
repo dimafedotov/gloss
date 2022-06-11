@@ -1,0 +1,19 @@
+body {
+	text-align: center;
+
+}
+
+.parallax {
+	margin: 0 auto;
+	width: 512px;
+	height: 768px;
+	position: relative;
+}
+
+.parallax img {
+	width: 512px;
+	/* will be overriden by JS script */
+	position: absolute;
+	left: 0;
+	right: 0;
+}
