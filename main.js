@@ -37,6 +37,7 @@ window.requestAnimFrame = (() => {
 	};
 
     const render = () => {
+		const rotate = `rotateY(${x * 1}deg)`;
 		for (let i = 0; i < card.container.children.length; i++) {
 			const img = card.container.children[i];
 			// if (!(img instanceof HTMLImageElement)) continue;
@@ -47,10 +48,9 @@ window.requestAnimFrame = (() => {
 			imgX = parseInt(imgX) + multX;
 			imgY = parseInt(imgY) + multY;
 			const translate = `translate3D(${imgX}px, ${imgY}px, ${mult}px)`;
-			img.style.transform = translate;
+			const scale = `scale(${i == 0 ? 1.2 : 1})`;
+			img.style.transform = translate + " " + rotate + " " + scale;
 	    }
-		const rotate = `rotateY(${x * 24}deg)`;
-		card.container.style.transform = rotate;
 
 		stats.innerHTML  = `<pre>stats</pre>`;
 		stats.innerHTML += `<pre>win: ${winX}x${winY}</pre>`;
