@@ -12,7 +12,6 @@ body {
 
 .parallax img {
 	width: 512px;
-	/* will be overriden by JS script */
 	position: absolute;
 	left: 0;
 	right: 0;
