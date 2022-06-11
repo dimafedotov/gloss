@@ -57,7 +57,7 @@ window.requestAnimFrame = (() => {
 			img.style.transform = translate + " " + rotate + " " + scale;
 	    }
 
-		stats.innerHTML  = `<pre>stats</pre>`;
+		stats.innerHTML  = `<pre>stats v.0.2</pre>`;
 		stats.innerHTML += `<pre>win: ${winX}x${winY}</pre>`;
 		stats.innerHTML += `<pre>x: ${Math.floor(x * 100)}</pre>`;
 		stats.innerHTML += `<pre>y: ${Math.floor(y * 100)}</pre>`;
