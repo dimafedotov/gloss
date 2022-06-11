@@ -12,8 +12,8 @@ window.requestAnimFrame = (() => {
 
 ((win, doc) => {
 
-    let winX = 0;
-    let winY = 0;
+	let winX = 0;
+	let winY = 0;
 
 	const setWinXY = () => {
 		winX = win.innerWidth;
@@ -22,8 +22,8 @@ window.requestAnimFrame = (() => {
 
 	setWinXY();
 
-    let x = 0;
-    let y = 0;
+	let x = 0;
+	let y = 0;
 
 	const setMouseXY = (e) => {
 		const halfX = winX / 2;
@@ -69,5 +69,5 @@ window.requestAnimFrame = (() => {
 		requestAnimationFrame(render);
 	});
 
-    requestAnimationFrame(render);
+	requestAnimationFrame(render);
 })(window, document);
